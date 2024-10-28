@@ -7,12 +7,4 @@ assignees: ''
 
 ---
 
-## Issue Title: 
-
-## Description: 
-
-## Labels: 
-
-## Milestone: 
-
-## Assigned:
+## Description:
