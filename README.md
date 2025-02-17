@@ -1,7 +1,97 @@
 # UPHDAS
 Upper Peninsula High-latitude Domain Awareness System
 
+## Overview
 A Raspberry Pi–based project for **autonomously detecting satellites**, generating partial TLEs, and **backing up** to a central server. The system includes weather-based scheduling, image processing to detect streaks, and plate-solving for precise astrometric calibration.
+
+## Features
+- 📷 **Starfield Image Capture**: Using IMX477 with calibrated exposure.
+- 🔍 **Plate Solving**: Converts pixel coordinates to celestial coordinates using ASTAP.
+- 🛰️ **Satellite Streak Detection**: Identifies moving objects in images.
+- 🚀 **Orbital Parameter Estimation**: Computes inclination, eccentricity, and RAAN.
+- 📡 **TLE Generation & Validation**: Compares with official databases.
+- 🌤️ **Weather-Based Operation**: Determines if conditions are favorable for capturing images.
+- 🔄 **Automated Data Syncing**: Uses `rsync` to transfer data to a central server.
+
+## Project Structure
+```
+📂 root  
+ ├── 📄 README.md (You are here!)  
+ ├── 📂 docs (Research, API References)  
+ ├── 📂 src (All source code)  
+ │   ├── capture_images.py (Captures images using IMX477)  
+ │   ├── process_images.py (Processes images for satellite streaks)  
+ │   ├── plate_solve_astap.py (Performs plate solving)  
+ │   ├── extract_ra_dec.py (Extracts RA/Dec from streaks)  
+ │   ├── generate_tle.py (Generates TLE sets)  
+ │   ├── check_clouds.py (Determines if imaging conditions are favorable)  
+ │   ├── update_tle.py (Fetches latest TLEs)  
+ │   ├── predict_passes.py (Predicts satellite passes)  
+ │   ├── sync_data.sh (Syncs data to server)  
+ │   ├── setup_env.sh (Installs dependencies)  
+ ├── 📂 tests (Automated tests)  
+ ├── 📂 data (Raw images, processed results)  
+ ├── 📂 configs (Configuration files)  
+ ├── 📂 notebooks (Jupyter research notebooks)  
+```
+
+## Installation
+```bash
+git clone https://github.com/your-repo/satellite-tracking.git
+cd satellite-tracking
+bash setup_env.sh
+```
+
+## Usage
+### **1️⃣ Capturing Starfield Images**
+```bash
+python src/capture_images.py --exposure 5 --gain 10
+```
+
+### **2️⃣ Running Plate Solving**
+```bash
+python src/plate_solve_astap.py --image data/starfield.jpg --output data/solve_result.ini
+```
+
+### **3️⃣ Detecting Satellite Streaks**
+```bash
+python src/process_images.py --image data/starfield.jpg --streaks-output data/streaks.json
+```
+
+### **4️⃣ Extracting RA/Dec from Streaks**
+```bash
+python src/extract_ra_dec.py --streaks data/streaks.json --plate-solution data/solve_result.ini
+```
+
+### **5️⃣ Generating TLE**
+```bash
+python src/generate_tle.py --input data/ra_dec_times.json --output data/tle.txt
+```
+
+### **6️⃣ Updating Satellite Catalog**
+```bash
+python src/update_tle.py
+```
+
+### **7️⃣ Checking Weather Conditions Before Running**
+```bash
+python src/check_clouds.py
+```
+
+### **8️⃣ Predicting Satellite Passes**
+```bash
+python src/predict_passes.py --tle data/tle.txt --location configs/observer_location.json
+```
+
+### **9️⃣ Syncing Data to Server**
+```bash
+bash src/sync_data.sh
+```
+
+## API Integration
+- **[Space-Track.org API](https://www.space-track.org/)**: Fetches real-time TLE data.
+- **[ASTAP](https://www.hnsky.org/astap.htm)**: Plate solving automation.
+- **[Open-Meteo API](https://api.open-meteo.com/)**: Weather forecasting.
 
 ## Table of Contents
 1. [Introduction & Goals](#introduction--goals)
