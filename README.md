@@ -7,11 +7,11 @@ A Raspberry Pi–based project for **autonomously detecting satellites**, genera
 ## Features
 - 📷 **Starfield Image Capture**: Using IMX477 with calibrated exposure.
 - 🔍 **Plate Solving**: Converts pixel coordinates to celestial coordinates using ASTAP.
-- 🛰️ **Satellite Streak Detection**: Identifies moving objects in images.
-- 🚀 **Orbital Parameter Estimation**: Computes inclination, eccentricity, and RAAN.
-- 📡 **TLE Generation & Validation**: Compares with official databases.
-- 🌤️ **Weather-Based Operation**: Determines if conditions are favorable for capturing images.
-- 🔄 **Automated Data Syncing**: Uses `rsync` to transfer data to a central server.
+- 🛰️ **Satellite Streak Detection**: Identifies satellite arc in long-exposure image.
+- 🚀 **Orbital Parameter Estimation**: Computes Right Ascension and Declination for a detected satellite.
+- 📡 **TLE Generation & Validation**: Compares with official bulk TLE database.
+- 🌤️ **Weather-Based Operation**: Determines if weather conditions are favorable for capturing images.
+- 🔄 **Automated Data Syncing**: Uses `rsync` to transfer data to a central aggregate server.
 
 ## Project Structure
 ```
@@ -32,7 +32,6 @@ A Raspberry Pi–based project for **autonomously detecting satellites**, genera
  ├── 📂 tests (Automated tests)  
  ├── 📂 data (Raw images, processed results)  
  ├── 📂 configs (Configuration files)  
- ├── 📂 notebooks (Jupyter research notebooks)  
 ```
 
 ## Installation
@@ -91,7 +90,7 @@ bash src/sync_data.sh
 ## API Integration
 - **[Space-Track.org API](https://www.space-track.org/)**: Fetches real-time TLE data.
 - **[ASTAP](https://www.hnsky.org/astap.htm)**: Plate solving automation.
-- **[Open-Meteo API](https://api.open-meteo.com/)**: Weather forecasting.
+- **[NOAA Weather API](https://forecast.weather.gov/)**: Weather forecasting.
 
 ## Table of Contents
 1. [Introduction & Goals](#introduction--goals)
@@ -124,7 +123,7 @@ The **Satellite Detection System** aims to capture night-sky images using a Rasp
    - Identify satellite streaks in images while filtering out planes, noise, and other false positives.
 
 3. **TLE Generation & Matching**  
-   - Perform plate solving to extract RA/Dec coordinates, then generate partial TLEs for cross-referencing known catalogs.
+   - Perform plate solving to extract RA/Dec coordinates, then generate partial TLEs (RA/Dec) for cross-referencing known catalogs.
 
 4. **Data Aggregation & Reporting**  
    - Centralize logs, TLE data, and optional images on a server, providing a basis for easy reporting or a web dashboard.
