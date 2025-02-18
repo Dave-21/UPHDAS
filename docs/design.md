@@ -2,8 +2,6 @@
 
 This document details the design, architecture, and data flow of the distributed satellite tracking and imaging system. It covers hardware components, software modules, processing pipelines, synchronization methods, and deployment strategies. Diagrams throughout this document illustrate key system components and data flows.
 
----
-
 ## Table of Contents
 
 1. [Overview](#overview)
@@ -28,13 +26,9 @@ This document details the design, architecture, and data flow of the distributed
 9. [Future Enhancements](#future-enhancements)
 10. [Conclusion](#conclusion)
 
----
-
 ## 1. Overview
 
-The Satellite Tracking & Imaging System is a distributed architecture that uses Raspberry Pi units to capture and process images of satellites during passes. Processed data is then synchronized with a central server which aggregates TLE data, predicts satellite passes, and refines imaging parameters. This document serves as a comprehensive blueprint for the system design and implementation.
-
----
+The Satellite Tracking & Imaging System is a distributed architecture that uses Raspberry Pi units to capture and process images of satellites during passes. Processed data is then synchronized with a central server which aggregates TLE (Two-Line Element) data, predicts satellite passes, and refines imaging parameters. This document serves as a comprehensive blueprint for system design and implementation.
 
 ## 2. System Architecture
 
@@ -48,7 +42,7 @@ The Satellite Tracking & Imaging System is a distributed architecture that uses 
 
 - **Central Server:**
   - Aggregates data from all Pi units.
-  - Updates TLE (Two-Line Element) catalogs from external sources.
+  - Updates TLE catalogs from external sources.
   - Predicts satellite passes using computational algorithms.
   - Manages centralized data storage and archival.
 
@@ -123,6 +117,19 @@ Figure 1: High-Level System Architecture Diagram
   - `setup_pi.sh`: Configures the Pi (e.g., entering latitude/longitude).
   - `sync_to_server.sh`: Uses rsync to transfer data to the server.
 
+- **Local TLE Filtering:**  
+  - **Purpose:** Instead of propagating every TLE from the bulk catalog, each Pi performs local filtering to generate a `visible_tle_catalog` containing only the satellites expected to be visible during the local pitch-black night.
+  - **Process Steps:**
+    1. **Bulk TLE Catalog Update:** The Pi receives the updated bulk TLE catalog (synchronized from the central server).
+    2. **Determine Night Period:** The Pi determines its local night period (based on astronomical twilight or a pre-configured schedule).
+    3. **Propagation & Filtering:** The Pi propagates each TLE in the bulk catalog for the night period using its geographic coordinates, then filters out those satellites that do not meet a minimum altitude or visibility criteria.
+    4. **Generate Visible TLE Catalog:** The filtered list is stored locally as `visible_tle_catalog`.
+    5. **Usage:** When a satellite streak is detected, only TLEs from the `visible_tle_catalog` are propagated and compared with the detected RA/Dec data.
+  - **Benefits:**  
+    - Reduces computational load by limiting propagation to only relevant TLEs.
+    - Ensures location-specific filtering since each Pi will have different overhead satellites.
+    - Simplifies network configuration by avoiding the need for individual port-forwarding of Pi units.
+
 ### Server-Side
 
 #### Modules
@@ -163,16 +170,16 @@ Figure 2: Image Preprocessing Pipeline
 ### Plate Solving & Coordinate Extraction
 
 **Plate Solving:**
-    The preprocessed image is analyzed to match star fields using the ASTAP tool, generating a configuration file with key parameters.
+	The preprocessed image is analyzed to match star fields using the ASTAP tool, generating a configuration file with key parameters.
 
 **Coordinate Conversion:**
-    Using `extract_ra_dec.py`, pixel coordinates along the satellite streak are converted to Right Ascension (RA) and Declination (Dec).
+	Using `extract_ra_dec.py`, pixel coordinates along the satellite streak are converted to Right Ascension (RA) and Declination (Dec).
 
 ```mermaid
 sequenceDiagram
     participant Img as Image
     participant ASTAP as PlateSolving Tool
-    participant EXTRACT as `extract_ra_dec.py`
+    participant EXTRACT as extract_ra_dec.py
     Img->>ASTAP: Submit image for plate solving
     ASTAP-->>Img: Return configuration parameters (CRPIX, CRVAL, CD matrix)
     Img->>EXTRACT: Convert pixel coordinates to RA/Dec using config
@@ -182,16 +189,17 @@ Figure 3: Plate Solving & Coordinate Extraction Sequence
 ### Satellite Trajectory Analysis
 
 - **Streak Analysis:**
-    Multiple points along the satellite streak are extracted.
+	Multiple points along the satellite streak are extracted.
+
 - **Trajectory Calculation:**
-    The change in position over time is computed to derive angular velocity and trajectory.
+	The change in position over time is computed to derive angular velocity and trajectory.
 
 ### Weather Data Integration
-
 - **API Calls:**
-    `cloud_coverage_meteo.py` and `check_clouds.py` query weather APIs (e.g., Open-Meteo, NWS) for cloud coverage data.
+	`cloud_coverage_meteo.py` and `check_clouds.py` query weather APIs (e.g., Open-Meteo, NWS) for cloud coverage data.
+
 - **Decision Making:**
-    The system uses this data to determine if imaging conditions are favorable.
+	The system uses this data to determine if imaging conditions are favorable.
 
 ## 6. Communication & Synchronization
 
@@ -226,6 +234,8 @@ Figure 4: Data Synchronization Flow
 - **Operational Workflow:**  
   - Automatic image capture and local processing.
   - Continuous synchronization using `sync_to_server.sh`.
+  - **Local TLE Filtering:**  
+    The nightly routine to generate the `visible_tle_catalog` is executed automatically on each Pi.
 
 ### Server Deployment
 
