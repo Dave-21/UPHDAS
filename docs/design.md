@@ -57,6 +57,7 @@ The Satellite Tracking & Imaging System is a distributed architecture that uses 
 
 ### System Diagram
 
+```mermaid
 flowchart TD
     subgraph Clients [Raspberry Pi Units]
         A[Image Capture]
@@ -80,6 +81,7 @@ flowchart TD
     E --> H
     F --> G
     G --> H
+```
 Figure 1: High-Level System Architecture Diagram
 
 ## 3. Hardware Components
@@ -149,11 +151,13 @@ Figure 1: High-Level System Architecture Diagram
 2. **Preprocessing:**  
    Images are enhanced through noise reduction, contrast enhancement, and streak isolation.
 
+```mermaid
 flowchart LR
     A[Raw Image Capture] --> B[Preprocessing]
     B --> C[Noise Reduction]
     B --> D[Contrast Enhancement]
     D --> E[Streak Isolation]
+```
 Figure 2: Image Preprocessing Pipeline
 
 ### Plate Solving & Coordinate Extraction
@@ -163,7 +167,8 @@ Figure 2: Image Preprocessing Pipeline
 
 **Coordinate Conversion:**
     Using `extract_ra_dec.py`, pixel coordinates along the satellite streak are converted to Right Ascension (RA) and Declination (Dec).
-    
+
+```mermaid
 sequenceDiagram
     participant Img as Image
     participant ASTAP as PlateSolving Tool
@@ -171,6 +176,7 @@ sequenceDiagram
     Img->>ASTAP: Submit image for plate solving
     ASTAP-->>Img: Return configuration parameters (CRPIX, CRVAL, CD matrix)
     Img->>EXTRACT: Convert pixel coordinates to RA/Dec using config
+```
 Figure 3: Plate Solving & Coordinate Extraction Sequence
 
 ### Satellite Trajectory Analysis
@@ -206,6 +212,7 @@ flowchart TD
     C --> D[Central Server]
     D -->|ACK| C
     C --> B
+```
 Figure 4: Data Synchronization Flow
 
 ## 7. Deployment & Maintenance
