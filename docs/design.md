@@ -198,6 +198,7 @@ Figure 3: Plate Solving & Coordinate Extraction Sequence
 - **Retry Logic:**  
   Data synchronization scripts incorporate error handling and retry mechanisms to manage intermittent network connectivity.
 
+```mermaid
 flowchart TD
     A[Pi Unit Data] --> B[Rsync Process]
     B --> C[Network]
