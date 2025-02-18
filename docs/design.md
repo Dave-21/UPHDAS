@@ -57,7 +57,6 @@ The Satellite Tracking & Imaging System is a distributed architecture that uses 
 
 ### System Diagram
 
-```mermaid
 flowchart TD
     subgraph Clients [Raspberry Pi Units]
         A[Image Capture]
@@ -83,58 +82,73 @@ flowchart TD
     G --> H
 Figure 1: High-Level System Architecture Diagram
 
-3. Hardware Components
-Raspberry Pi Unit
-Processor: Raspberry Pi (e.g., Pi 5)
-Camera: High-sensitivity camera module (IMX477 preferred for its versatility)
-Local Storage: MicroSD card for temporary storage of images and logs
-Connectivity: Wi-Fi/Ethernet for data synchronization
-Sensors: Optional environmental sensors (temperature, humidity)
-Central Server
-Processor & Memory: Sufficient CPU and memory to handle multiple data streams and intensive computations.
-Storage: Large storage capacity for aggregated images, logs, and TLE files.
-Networking: Robust network interface for simultaneous client connections.
-4. Software Architecture
-Client-Side (Pi Units)
-Modules
-Image Capture Scripts:
+## 3. Hardware Components
 
-capture_images.py & Capturelmage.py: Controls camera operations.
-Local Processing:
+### Raspberry Pi Unit
 
-process_frames.py: Processes captured images (e.g., noise reduction, streak isolation).
-extract_ra_dec.py: Converts pixel coordinates to celestial coordinates using ASTAP output.
-plate_solve_astap.py: Interfaces with the ASTAP tool for plate solving.
-Environmental Monitoring:
+- **Processor:** Raspberry Pi (e.g., Pi 5)
+- **Camera:** High-sensitivity camera module (IMX477 preferred for its versatility)
+- **Local Storage:** MicroSD card for temporary storage of images and logs
+- **Connectivity:** Wi-Fi/Ethernet for data synchronization
+- **Sensors:** Optional environmental sensors (temperature, humidity)
 
-wheather_check.py: Checks local weather conditions.
-cloud_coverage_meteo.py & check_clouds.py: Fetches cloud coverage data from APIs.
-Setup & Synchronization:
+### Central Server
 
-dependency_install_pi.sh: Installs necessary software on the Pi.
-setup_pi.sh: Configures the Pi (e.g., entering latitude/longitude).
-sync_to_server.sh: Uses rsync to transfer data to the server.
-Server-Side
-Modules
-Satellite Tracking & TLE Management:
+- **Processor & Memory:** Sufficient CPU and memory to handle multiple data streams and intensive computations.
+- **Storage:** Large capacity for aggregated images, logs, and TLE files.
+- **Networking:** Robust network interface for simultaneous client connections.
 
-predict_passes.py: Predicts satellite passes using TLE data.
-update_tle.py: Fetches and aggregates TLE data from external sources.
-Server Setup & Process Management:
+## 4. Software Architecture
 
-dependency_install_server.sh: Installs required packages on the server.
-setup_server.sh: Prepares the server environment (directory creation, configuration).
-run_server_process.sh: Manages long-running server processes.
-Common Utilities
-Shared Library:
-utils.py: Contains common functions for logging, configuration management, and error handling.
-5. Data Processing Pipeline
-Image Acquisition and Preprocessing
-Capture:
-The camera module captures images at scheduled times based on predicted satellite passes.
+### Client-Side (Pi Units)
 
-Preprocessing:
-Images are enhanced through noise reduction, contrast enhancement, and streak isolation.
+#### Modules
+
+- **Image Capture Scripts:**  
+  - `capture_images.py` & `Capturelmage.py`: Controls camera operations.
+  
+- **Local Processing:**  
+  - `process_frames.py`: Processes captured images (e.g., noise reduction, streak isolation).
+  - `extract_ra_dec.py`: Converts pixel coordinates to celestial coordinates using ASTAP output.
+  - `plate_solve_astap.py`: Interfaces with the ASTAP tool for plate solving.
+
+- **Environmental Monitoring:**  
+  - `wheather_check.py`: Checks local weather conditions.
+  - `cloud_coverage_meteo.py` & `check_clouds.py`: Fetch cloud coverage data from external APIs.
+
+- **Setup & Synchronization:**  
+  - `dependency_install_pi.sh`: Installs necessary software on the Pi.
+  - `setup_pi.sh`: Configures the Pi (e.g., entering latitude/longitude).
+  - `sync_to_server.sh`: Uses rsync to transfer data to the server.
+
+### Server-Side
+
+#### Modules
+
+- **Satellite Tracking & TLE Management:**
+  - `predict_passes.py`: Predicts satellite passes using TLE data.
+  - `update_tle.py`: Fetches and aggregates TLE data from external sources.
+
+- **Server Setup & Process Management:**
+  - `dependency_install_server.sh`: Installs required packages on the server.
+  - `setup_server.sh`: Prepares the server environment (creates directories, configures settings).
+  - `run_server_process.sh`: Manages long-running server processes.
+
+### Common Utilities
+
+- **Shared Library:**
+  - `utils.py`: Contains common functions for logging, configuration management, and error handling.
+
+## 5. Data Processing Pipeline
+
+### Image Acquisition and Preprocessing
+
+1. **Capture:**  
+   The camera module captures images at scheduled times based on predicted satellite passes.
+   
+2. **Preprocessing:**  
+   Images are enhanced through noise reduction, contrast enhancement, and streak isolation.
+
 flowchart LR
     A[Raw Image Capture] --> B[Preprocessing]
     B --> C[Noise Reduction]
@@ -142,86 +156,110 @@ flowchart LR
     D --> E[Streak Isolation]
 Figure 2: Image Preprocessing Pipeline
 
-Plate Solving & Coordinate Extraction
-Plate Solving:
-The preprocessed image is analyzed to match star fields using the ASTAP tool, generating a configuration file with key parameters.
+### Plate Solving & Coordinate Extraction
 
-Coordinate Conversion:
-Using extract_ra_dec.py, pixel coordinates along the satellite streak are converted to RA and Dec.
+**Plate Solving:**
+    The preprocessed image is analyzed to match star fields using the ASTAP tool, generating a configuration file with key parameters.
+
+**Coordinate Conversion:**
+    Using `extract_ra_dec.py`, pixel coordinates along the satellite streak are converted to Right Ascension (RA) and Declination (Dec).
 sequenceDiagram
     participant Img as Image
     participant ASTAP as PlateSolving Tool
-    participant EXTRACT as extract_ra_dec.py
+    participant EXTRACT as `extract_ra_dec.py`
     Img->>ASTAP: Submit image for plate solving
     ASTAP-->>Img: Return configuration parameters (CRPIX, CRVAL, CD matrix)
     Img->>EXTRACT: Convert pixel coordinates to RA/Dec using config
 Figure 3: Plate Solving & Coordinate Extraction Sequence
 
-Satellite Trajectory Analysis
-Streak Analysis:
-Multiple points along the satellite streak are extracted.
+### Satellite Trajectory Analysis
 
-Trajectory Calculation:
-The change in position over time is computed to derive angular velocity and trajectory.
+- **Streak Analysis:**
+    Multiple points along the satellite streak are extracted.
+- **Trajectory Calculation:**
+    The change in position over time is computed to derive angular velocity and trajectory.
 
-Weather Data Integration
-API Calls:
-cloud_coverage_meteo.py and check_clouds.py query weather APIs (e.g., Open-Meteo, NWS) for cloud coverage data.
+### Weather Data Integration
 
-Decision Making:
-The system uses this data to determine if imaging conditions are favorable.
+- **API Calls:**
+    `cloud_coverage_meteo.py` and `check_clouds.py` query weather APIs (e.g., Open-Meteo, NWS) for cloud coverage data.
+- **Decision Making:**
+    The system uses this data to determine if imaging conditions are favorable.
 
-6. Communication & Synchronization
-Data Transfer Protocol
-Rsync:
-Utilized by sync_to_server.sh to incrementally and securely synchronize images, logs, and metadata from Pi units to the central server.
-Network Resilience
-Retry Logic:
-Data synchronization scripts incorporate error handling and retry mechanisms to manage intermittent network connectivity.
+## 6. Communication & Synchronization
+
+### Data Transfer Protocol
+
+- **Rsync:**  
+  Utilized by `sync_to_server.sh` to incrementally and securely synchronize images, logs, and metadata from Pi units to the central server.
+
+### Network Resilience
+
+- **Retry Logic:**  
+  Data synchronization scripts incorporate error handling and retry mechanisms to manage intermittent network connectivity.
+
 flowchart TD
-    A[Pi Unit Data]
-    B[Rsync Process]
-    C[Network]
-    D[Central Server]
-    A --> B
-    B --> C
-    C --> D
+    A[Pi Unit Data] --> B[Rsync Process]
+    B --> C[Network]
+    C --> D[Central Server]
     D -->|ACK| C
     C --> B
 Figure 4: Data Synchronization Flow
 
-7. Deployment & Maintenance
-Client Deployment (Raspberry Pi)
-Initial Setup:
-Run dependency_install_pi.sh to install dependencies.
-Execute setup_pi.sh to configure geographical parameters.
-Operational Workflow:
-Automatic image capture and local processing.
-Continuous synchronization using sync_to_server.sh.
-Server Deployment
-Environment Setup:
-Execute dependency_install_server.sh followed by setup_server.sh.
-Process Management:
-Start server-side processes using run_server_process.sh.
-Central Logging:
-All logs are stored in a dedicated logs/ directory for monitoring and troubleshooting.
-8. Error Handling, Logging, and Security
-Logging:
-Both Pi units and the server implement robust logging (see utils.py) for debugging and system health monitoring.
-Error Handling:
-API calls, file operations, and network transfers incorporate retry mechanisms and exception handling.
-Security:
-Secure credentials storage for TLE data fetching.
-Encrypted data transfers where applicable.
-Controlled access to configuration files.
-9. Future Enhancements
-Scalability:
-Expand the system by adding more Pi units to increase geographic coverage.
-Advanced Analytics:
-Implement machine learning models for improved image processing and anomaly detection.
-User Interface:
-Develop a web dashboard for real-time monitoring, historical data analysis, and system configuration.
-Enhanced Synchronization:
-Evaluate alternative data transfer methods to support increased data volumes.
-10. Conclusion
-The design of the Satellite Tracking & Imaging System is centered on a modular, scalable architecture that integrates distributed data capture with centralized processing and predictive analytics. This document provides a detailed blueprint for the hardware selection, software components, processing pipelines, synchronization mechanisms, and deployment strategies required for a robust, resilient system. Future enhancements and scalability considerations have also been addressed to ensure the system can evolve as new requirements emerge.
+## 7. Deployment & Maintenance
+
+### Client Deployment (Raspberry Pi)
+
+- **Initial Setup:**  
+  - Run `dependency_install_pi.sh` to install dependencies.
+  - Execute `setup_pi.sh` to configure geographical parameters.
+  
+- **Operational Workflow:**  
+  - Automatic image capture and local processing.
+  - Continuous synchronization using `sync_to_server.sh`.
+
+### Server Deployment
+
+- **Environment Setup:**  
+  - Execute `dependency_install_server.sh` followed by `setup_server.sh`.
+  
+- **Process Management:**  
+  - Start server-side processes using `run_server_process.sh`.
+  
+- **Central Logging:**  
+  - All logs are stored in a dedicated `logs/` directory for monitoring and troubleshooting.
+
+## 8. Error Handling, Logging, and Security
+
+- **Logging:**  
+  Both Pi units and the server implement robust logging (see `utils.py`) for debugging and system health monitoring.
+  
+- **Error Handling:**  
+  API calls, file operations, and network transfers incorporate retry mechanisms and exception handling.
+  
+- **Security:**  
+  - Secure credentials storage for TLE data fetching.
+  - Encrypted data transfers where applicable.
+  - Controlled access to configuration files.
+
+## 9. Future Enhancements
+
+- **Scalability:**  
+  Expand the system by adding more Pi units to increase geographic coverage.
+  
+- **Advanced Analytics:**  
+  Implement machine learning models for improved image processing and anomaly detection.
+  
+- **User Interface:**  
+  Develop a web dashboard for real-time monitoring, historical data analysis, and system configuration.
+  
+- **Enhanced Synchronization:**  
+  Evaluate alternative data transfer methods to support increased data volumes.
+
+## 10. Conclusion
+
+The design of the Satellite Tracking & Imaging System is centered on a modular, scalable architecture that integrates distributed data capture with centralized processing and predictive analytics. This document provides a detailed blueprint for hardware selection, software components, processing pipelines, synchronization mechanisms, and deployment strategies required for a robust and resilient system. Future enhancements and scalability considerations ensure that the system can evolve as new requirements emerge.
+
+---
+
+*End of Document*
