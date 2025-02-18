@@ -1,0 +1,5 @@
+# Configuration file for the Pi unit.
+
+pi_config:
+  latitude: 46.4977      # Default latitude (update as needed)
+  longitude: -84.3476    # Default longitude (update as needed)

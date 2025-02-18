@@ -1,0 +1,7 @@
+astropy
+numpy
+skyfield
+requests
+python-dateutil
+spacetrack
+
