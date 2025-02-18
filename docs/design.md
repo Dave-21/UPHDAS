@@ -163,6 +163,7 @@ Figure 2: Image Preprocessing Pipeline
 
 **Coordinate Conversion:**
     Using `extract_ra_dec.py`, pixel coordinates along the satellite streak are converted to Right Ascension (RA) and Declination (Dec).
+    
 sequenceDiagram
     participant Img as Image
     participant ASTAP as PlateSolving Tool
