@@ -1,5 +1,12 @@
 # Configuration file for the Pi unit.
-
 pi_config:
-  latitude: 46.4977      # Default latitude (update as needed)
-  longitude: -84.3476    # Default longitude (update as needed)
+  latitude: 46.4977
+  longitude: -84.3476
+  cloud_threshold: 70         
+  moon_threshold: 60          
+  rain_threshold: 20          
+  snow_threshold: 20          
+  allow_rain: false           
+  allow_snow: false           
+  debug: true                 
+  timezone: America/Detroit   
