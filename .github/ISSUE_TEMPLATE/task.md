@@ -5,6 +5,10 @@ title: 'Setting up server'
 labels: 'Server'
 Priority: '1'
 ---
-
+| Month    | Savings |
+| -------- | ------- |
+| January  | $250    |
+| February | $80     |
+| March    | $420    |
 
 ## Description:
