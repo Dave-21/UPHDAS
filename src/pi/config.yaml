@@ -22,6 +22,7 @@ pi_config:
   astap_fov: 0
   astap_demosaic: true        
   astap_color_correction: true
+  validation_margin_deg: 1.0
 
 streak_detection:
   min_length: 50

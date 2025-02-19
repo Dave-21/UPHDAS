@@ -23,6 +23,7 @@ from picamera2 import Picamera2
 # Scripts that work in conjunction
 import extract_streak
 import plate_solve
+import validate_satellite_detection
 
 def load_config(config_path="config.yaml"):
     with open(config_path, "r") as f:
@@ -101,6 +102,7 @@ def process_capture(image_filename, capture_start, exposure_time_us, num_sample_
     }
     return metadata
 
+# main
 def main_loop():
     # Load full configuration
     cfg = load_config()
@@ -109,6 +111,7 @@ def main_loop():
 
     num_sample_points = pi_config.get("num_sample_points", 3)
     exposure_time_us = pi_config.get("exposure_time_us", 5000000)
+    validation_margin = pi_config.get("validation_margin_deg", 1.0)
     
     # Build the ASTAP config from the pi_config parameters
     astap_config = {
@@ -147,13 +150,29 @@ def main_loop():
         metadata = process_capture(image_filename, capture_start, exposure_time_us,
                                    num_sample_points, streak_config, astap_config)
         if metadata is None:
-            # Trash the image if no valid satellite streak was detected
             print(f"Trashing image {image_filename} due to no valid streak.")
             try:
                 os.remove(image_filename)
             except Exception as e:
                 print(f"Error deleting {image_filename}: {e}")
         else:
+            # Validate the detection against the propagated TLEs
+            validated = validate_satellite_detection.validate_detection(
+                metadata, "visible_satellites.tle", validation_margin
+            )
+            if validated:
+                # Log the validated detection
+                log_entry = {
+                    "shot": shot_number,
+                    "validated_detections": validated,
+                    "metadata": metadata
+                }
+                with open("validated_detections.log", "a") as logf:
+                    logf.write(json.dumps(log_entry, indent=2) + "\n")
+                print(f"Shot {shot_number}: Validated detection: {validated}")
+            else:
+                print(f"Shot {shot_number}: No validated satellite detection.")
+            
             meta_filename = os.path.join("Shot_Metadata", f"shot{shot_number}.json")
             with open(meta_filename, "w") as f:
                 json.dump(metadata, f, indent=2)
