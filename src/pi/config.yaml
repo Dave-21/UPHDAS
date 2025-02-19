@@ -15,6 +15,14 @@ pi_config:
   astap_fov: 0
   astap_demosaic: true        
   astap_color_correction: true
+  num_sample_points: 3        
+  exposure_time_us: 5000000   
+  astap_speed: slow           
+  astap_search_radius: 180
+  astap_fov: 0
+  astap_demosaic: true        
+  astap_color_correction: true
+
 streak_detection:
   min_length: 50
   border_tolerance: 10
