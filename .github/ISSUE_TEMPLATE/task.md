@@ -11,11 +11,11 @@ title: 'Setting up HTTPS'
 labels: 'Website'
 Priority: '2'
 
-name: 'HTTPS'
-about: 'We need to attempt to set up a basic website that accepts and rejects login forms'
-title: 'Setting up HTTPS'
-labels: 'Website'
-Priority: '2'
+name: 'Database'
+about: 'Create an ER diagram to use for our database'
+title: 'Making ER Diagram'
+labels: 'Database'
+Priority: '3'
 
 
 ---
