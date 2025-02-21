@@ -2,7 +2,7 @@
 
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Server                      | Set up a test server to test our website, database, and rsync                                                                                 | 1        |
+~~| Server                      | Set up a test server to test our website, database, and rsync                                                                                 | 1        |~~
 | Website                     | Set up a basic website that can accept and reject logins                                                                                      | 2        |
 | Database                    | Set up a database with an ER diagram for data flow                                                                                            | 3        |
 | Pi Debug & Logging          | Add debug modes and update logging in all critical Pi scripts                                                                                 | 1        |
@@ -38,7 +38,6 @@
 | Data Structure Specification| Specify metadata details: latitude/longitude, streak points (with times), exposure length, capture datetime                                      | 2        |
 | Directory Layout Documentation | Document the directory layout for data storage, compression, and archival                                                                   | 3        |
 | Server-Website Integration  | Set up and integrate the website with the test server and database                                                                            | 2        |
-| Daily Standups              | Hold daily stand-up meetings to review progress and resolve blockers                                                                           | 1        |
 | GitHub Documentation Updates| Continuously update the project GitHub repository with current changes and documentation                                                       | 1        |
 | One-page Summary Preparation| Prepare a one-page summary of the data flow, directory structure, and server/web interface design for internal and client review                  | 1        |
 
