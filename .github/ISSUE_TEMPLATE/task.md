@@ -1,11 +1,50 @@
-| Name:  | About                                                                    | Priority |
-| -------| -------------------------------------------------------------------------|----------| 
-|Server  | We need to set up a test server to test our website, database, and rsync |     1    |  
-|Website | We Need to set up a basic website that can accept and reject logins      |     2    |
-|Database| We Need to set up a database with an ER diagram for dataflow             |     3    |
+# This Week
 
+## Core Tasks
 
-## Description:
+### Pi Script Enhancements & Debugging (Priority 1)
+- [ ] Add debug modes to all critical Pi scripts.
+- [ ] Review and update logging to capture key events and errors.
+
+### Plate Solving & Image Pipeline Verification (Priority 1)
+- [ ] Confirm ASTAP Pi plate solve functionality works reliably.
+- [ ] Validate the image pipeline end-to-end (rolling_capture.py and conjunction documents).
+
+### Streak Detection Testing (Priority 1)
+- [ ] Run the streak detection script on good images.
+- [ ] Test on high cloud-covered images to ensure no false positives.
+
+### Web Interface – Basic Functionality (Priority 2)
+- [ ] Develop a basic website with:
+  - [ ] Login/Signup (accept and reject logins)
+  - [ ] User Management
+  - [ ] Dashboard/Main Homepage
+
+### Data Flow & Directory Structure Design (Priority 3)
+- [ ] Define how data will be stored and transferred.
+- [ ] Specify structure for:
+  - Validated satellites.
+  - Images with satellite streaks (non-validated) including metadata: latitude/longitude, points along streak (with exact times), exposure length, and exact capture datetime.
+- [ ] Document directory layout and compression/archival procedures.
+
+### Automation & Nightly Operation Integration (Priority 2)
+- [ ] Integrate the “decision-to-run” script into the nightly Pi 5 schedule.
+- [ ] Run an end-to-end overnight test even under high cloud coverage conditions.
+
+### Fallback & Error Handling Enhancements (Priority 3)
+- [ ] Implement fallback procedures for high cloud coverage conditions.
+- [ ] Ensure error logging and notifications are operational.
+---
+
+## Pre-Defined Tasks from tasks.md
+
+| Name:   | About                                                                           | Priority |
+| ------- | ------------------------------------------------------------------------------- | -------- |
+| Server  | Set up a test server to test our website, database, and rsync                   | 1        |
+| Website | Set up a basic website that can accept and reject logins                        | 2        |
+| Database| Set up a database with an ER diagram for data flow                              | 3        |
+
+---
 
 # Additional Features & Enhancements (Post-Barebones)
 
@@ -36,6 +75,5 @@ These tasks extend the core functionality and add advanced capabilities beyond t
   - [ ] Enhance directory structure to support scalable data storage and retrieval.
 
 - [ ] **Future Enhancements (Optional)**
-  - [ ] Show satellite insights and analytics on dashboard.
+  - [ ] Show satellite insights and analytics on the dashboard.
   - [ ] Explore machine learning techniques for improved streak detection.
-     
