@@ -39,6 +39,12 @@
 | Directory Layout Documentation | Document the directory layout for data storage, compression, and archival                                                                   | 3        |
 | Server-Website Integration  | Set up and integrate the website with the test server and database                                                                            | 2        |
 | GitHub Documentation Updates| Continuously update the project GitHub repository with current changes and documentation                                                       | 1        |
+| Unit & Integration Testing       | Develop and run unit tests for Pi scripts, web interface, and data processing modules; perform full system integration testing                                             | 1        |
+| Security & Access Control        | Implement basic security measures (SSL, user session management, access control for admin areas)                                                                         | 2        |
+| Documentation & Code Review      | Finalize project documentation (technical docs, user guides, admin manuals) and perform code reviews                                                                     | 2        |
+| Deployment Preparation           | Prepare deployment scripts and finalize environment configurations for production                                                                                    | 2        |
+| Client Handoff Documentation     | Create final handoff documentation and user training materials for the client                                                                                          | 2        |
+| Post-Deployment Monitoring Setup (Web Page) | Set up monitoring and logging for production environment (performance, errors, uptime)                                                                                 | 2        |
 | One-page Summary Preparation| Prepare a one-page summary of the data flow, directory structure, and server/web interface design for internal and client review                  | 1        |
 
 ---
@@ -49,6 +55,8 @@
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | Global Config Management     | Implement a global `config.yaml` for admin modification; ensure Pis fetch config values (excluding unit-specific lat/long); add versioning      | 4        |
 | Advanced Satellite Statistics| Develop a module to calculate/display satellite capture statistics (counts per school, unit performance, average cloud coverage, names)       | 4        |
+| Advanced Analytics Dashboard      | Create dashboards or reports to visualize satellite statistics and system performance; integrate analytics into the web interface                                          | 4        |
 | Enhanced Admin Dashboard     | Allow admin to modify/push configuration changes directly from the dashboard; add activity logs and notifications                                | 4        |
+| TLE Source| Output URL for detected satelltie (given name, generate url for searching that satellite in an online catalog).                               | 5        |
 | Extended Data Flow Enhancements| Define and implement a detailed data schema for observation metadata; automate compression/archival; enhance directory structure                | 4        |
 | Future Enhancements          | Develop satellite insights/analytics dashboard; explore machine learning for improved streak detection                                           | 5        |
