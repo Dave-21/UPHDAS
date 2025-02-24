@@ -15,7 +15,6 @@
 | Web Interface Basic         | Develop a basic web interface with login/signup, user management, and a dashboard/main homepage                                                 | 2        |
 | Data Flow Definition        | Define the overall data flow for storing/transferring observation data, including structure for validated satellites and image metadata       | 2        |
 | Directory Documentation     | Document the directory layout for data storage, retrieval, compression, and archival                                                           | 3        |
-| Daily Coordination          | Hold daily stand-up meetings; update GitHub documentation; prepare a one-page summary of data flow and system design                             | 1        |
 
 ---
 
