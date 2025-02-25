@@ -3,7 +3,6 @@
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | Pi 5 Case     | Find a slim case with fan and good heatsink for Pi 5                                                           | 2        |
-
 | Server                      | Set up a test server to test our website, database, and rsync                                                                                | 1        |
 | ~~Website~~                     | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
 | Database                    | Set up a database with an ER diagram for data flow                                                                                            | 3        |
