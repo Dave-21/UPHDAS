@@ -3,7 +3,7 @@
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | Server                      | Set up a test server to test our website, database, and rsync                                                                                | 1        |
-~~| Website                     | Set up a basic website that can accept and reject logins                                                                                      | 2        |~~
+| ~~Website~~                     | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
 | Database                    | Set up a database with an ER diagram for data flow                                                                                            | 3        |
 | Pi Debug & Logging          | Add debug modes and update logging in all critical Pi scripts                                                                                 | 1        |
 | Plate Solve Verification    | Confirm ASTAP Pi plate solve functionality works reliably                                                                                   | 1        |
