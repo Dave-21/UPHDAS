@@ -30,6 +30,8 @@
   $deleteResult = $conn->query("delete from sessions where ".time()." > exptime");
   if(!$deleteResult) die("Failed to delete old sessions.");
 
+
+
   #Checks if the user has an active sessionID cookie
   if(isset($_COOKIE["UPHDAS_login"]))
   {
@@ -38,16 +40,20 @@
     if($sessionResult->num_rows != 1)
     {
       $conn->close();
+      echo "Access denied.<br>";
+      setcookie("UPHDAS_login", $potentialID, time()-3600, "/");
       header("Location: loginstart.php");
     }
     else if(!$sessionResult) die("Failed to fetch sessionIDs");
     else if ($sessionResult->num_rows == 1)
     {
       $data = $sessionResult->fetch_Array(MYSQLI_ASSOC);
-      echo "Cookie session ID is " . $_COOKIE["UPHDAS_login"] . ", database session ID is " . htmlspecialchars($data['sessionID']) . ".<br>";
-      if($_COOKIE["UPHDAS_login"] != htmlspecialchars($data['sessionID']))
+      echo "Cookie session IDi is " . $_COOKIE["UPHDAS_login"] . ", database session ID is " . htmlspecialchars($data['sessionID']) . ".<br>";
+      if($_COOKIE["UPHDAS_login"] != htmlspecialchars($data['sessionID']) || htmlspecialchars($data['level']) != 'admin')
       {
         $conn->close();
+        echo "Access denied.<br>";
+        setcookie("UPHDAS_login", $potentialID, time()-3600, "/");
         header("Location: loginstart.php");
       }
     }
@@ -55,9 +61,11 @@
   else
   {
     $conn->close();
+    echo "Your session has expired. Please log in again.<br>";
     header("Location: loginstart.php");
   }
   #deletes old sessions
+
 
 
 

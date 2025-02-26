@@ -5,14 +5,32 @@
      #checks if there are any login cookies
      if(isset($_COOKIE["UPHDAS_login"]))
      {
-       #require_once 'config.php';
-       $conn = new mysqli($hn, $un, $pw, $db);
+       #Defines mySQL connection variables
+       $hostname = 'localhost';
+       $dbname = 'website';
+       $username = 'bdavis';
+       $password = 'bdavis';
+
+       #Creates a mySQL connection
+       $conn = new mysqli($hostname, $username, $password, $dbname);
+
+       #Cleans up expired cookies
+       $deleteResult = $conn->query("delete from sessions where ".time()." > exptime");
+
+       #CHecks if the user's cookie points to an active session
        $result = $conn->query("Select * from sessions where sessionid = '" . $_COOKIE["UPHDAS_login"] ."'");
+
+       #Checks if the result of the query only had 1 row
        if($result->num_rows == 1)
        {
+         #Moves user to homepage (skips login)
          header("Location: home.php");
          $conn->close();
          die();
+       }
+       else
+       {
+         $conn->close();
        }
      }
     ?>
