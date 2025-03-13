@@ -2,21 +2,22 @@
 
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Technical Dimensions Doc     | Prepare an in-depth document showing all measurement properties for engineering team                                                           | 1        |
-| Pi 5 Case     | Find a slim case with fan and good heatsink for Pi 5                                                           | 2        |
-| Server                      | ~~Set up a test server to test our website, database, and rsync~~                                                                                | 1        |
-| ~~Website~~                     | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
-| Database                    | ~~Set up a database with an ER diagram for data flow~~                                                                                            | 3        |
+| Data Transfer               | Send image data from the pi and display it on the website                                                                                     | 2        |
+| Technical Dimensions Doc    | Prepare an in-depth document showing all measurement properties for engineering team                                                          | 1        |
+| Pi 5 Case                   | Find a slim case with fan and good heatsink for Pi 5                                                                                          | 2        |
+| ~~Server~~                  | ~~Set up a test server to test our website, database, and rsync~~                                                                             | 1        |
+| ~~Website~~                 | ~~Set up a basic website that can accept and reject logins~~                                                                                  | 2        |
+| ~~Database~~                | ~~Set up a database with an ER diagram for data flow~~                                                                                        | 3        |
 | Pi Debug & Logging          | Add debug modes and update logging in all critical Pi scripts                                                                                 | 1        |
-| Plate Solve Verification    | Confirm ASTAP Pi plate solve functionality works reliably                                                                                   | 1        |
+| Plate Solve Verification    | Confirm ASTAP Pi plate solve functionality works reliably                                                                                     | 1        |
 | Image Pipeline Validation   | Validate the image pipeline end-to-end (rolling_capture.py and related documents)                                                             | 1        |
-| Streak Detection Testing    | Run and test the streak detection script on good images and on high cloud-covered images (ensure no false positives)                             | 1        |
-| Automation Integration      | Integrate the “decision-to-run” script into the nightly Pi 5 schedule and configure nightly operation                                          | 1        |
+| Streak Detection Testing    | Run and test the streak detection script on good images and on high cloud-covered images (ensure no false positives)                          | 1        |
+| Automation Integration      | Integrate the “decision-to-run” script into the nightly Pi 5 schedule and configure nightly operation                                         | 1        |
 | Overnight Test              | Run an end-to-end overnight test under high cloud coverage conditions                                                                         | 1        |
 | Error Handling              | Implement fallback procedures and error logging/notifications for high cloud coverage                                                         | 2        |
-| Web Interface Basic         | Develop a basic web interface with login/signup, user management, and a dashboard/main homepage                                                 | 2        |
+| Web Interface Basic         | Develop a basic web interface with login/signup, user management, and a dashboard/main homepage                                               | 2        |
 | Data Flow Definition        | Define the overall data flow for storing/transferring observation data, including structure for validated satellites and image metadata       | 2        |
-| Directory Documentation     | Document the directory layout for data storage, retrieval, compression, and archival                                                           | 3        |
+| Directory Documentation     | Document the directory layout for data storage, retrieval, compression, and archival                                                          | 3        |
 
 ---
 
@@ -24,9 +25,9 @@
 
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Server                      | ~~Set up a test server to test our website, database, and rsync~~                                                                                 | 1        |
-| Website                     | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
-| Database                    | ~~Set up a database with an ER diagram for data flow~~                                                                                            | 3        |
+| ~~Server~~                  | ~~Set up a test server to test our website, database, and rsync~~                                                                                 | 1        |
+| ~~Website~~                 | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
+| ~~Database~~                | ~~Set up a database with an ER diagram for data flow~~                                                                                            | 3        |
 | Pi Debug & Logging          | Add debug modes and update logging in all critical Pi scripts                                                                                 | 1        |
 | Plate Solve Verification    | Confirm ASTAP Pi plate solve functionality works reliably                                                                                   | 1        |
 | Image Pipeline Validation   | Validate the image pipeline end-to-end (rolling_capture.py and conjunction documents)                                                         | 1        |
