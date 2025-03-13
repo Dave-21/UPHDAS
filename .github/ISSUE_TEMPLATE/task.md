@@ -4,9 +4,9 @@
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | Technical Dimensions Doc     | Prepare an in-depth document showing all measurement properties for engineering team                                                           | 1        |
 | Pi 5 Case     | Find a slim case with fan and good heatsink for Pi 5                                                           | 2        |
-| Server                      | Set up a test server to test our website, database, and rsync                                                                                | 1        |
+| Server                      | ~~Set up a test server to test our website, database, and rsync~~                                                                                | 1        |
 | ~~Website~~                     | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
-| Database                    | Set up a database with an ER diagram for data flow                                                                                            | 3        |
+| Database                    | ~~Set up a database with an ER diagram for data flow~~                                                                                            | 3        |
 | Pi Debug & Logging          | Add debug modes and update logging in all critical Pi scripts                                                                                 | 1        |
 | Plate Solve Verification    | Confirm ASTAP Pi plate solve functionality works reliably                                                                                   | 1        |
 | Image Pipeline Validation   | Validate the image pipeline end-to-end (rolling_capture.py and related documents)                                                             | 1        |
@@ -24,9 +24,9 @@
 
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Server                      | Set up a test server to test our website, database, and rsync                                                                                 | 1        |
-| Website                     | Set up a basic website that can accept and reject logins                                                                                      | 2        |
-| Database                    | Set up a database with an ER diagram for data flow                                                                                            | 3        |
+| Server                      | ~~Set up a test server to test our website, database, and rsync~~                                                                                 | 1        |
+| Website                     | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
+| Database                    | ~~Set up a database with an ER diagram for data flow~~                                                                                            | 3        |
 | Pi Debug & Logging          | Add debug modes and update logging in all critical Pi scripts                                                                                 | 1        |
 | Plate Solve Verification    | Confirm ASTAP Pi plate solve functionality works reliably                                                                                   | 1        |
 | Image Pipeline Validation   | Validate the image pipeline end-to-end (rolling_capture.py and conjunction documents)                                                         | 1        |
