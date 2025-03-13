@@ -2,6 +2,7 @@
 
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Technical Dimensions Doc     | Prepare an in-depth document showing all measurement properties for engineering team                                                           | 1        |
 | Pi 5 Case     | Find a slim case with fan and good heatsink for Pi 5                                                           | 2        |
 | Server                      | Set up a test server to test our website, database, and rsync                                                                                | 1        |
 | ~~Website~~                     | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
