@@ -1,0 +1,41 @@
+
+CREATE TABLE IF NOT EXISTS User(
+    userID char(10) not null,
+    username varchar(128) not null,
+    password varchar(128) not null,
+    authLevel varchar(32) not null,
+    PRIMARY KEY(userID),
+    UNIQUE (userID),
+    UNIQUE (username)
+    ) ENGINE InnoDB
+
+
+
+CREATE TABLE IF NOT EXISTS Session(
+    sessionID char(10) not null,
+    userID char(10) not null,
+    authLevel varchar(32) NOT NULL,
+    expTime char(10) not null,
+    FOREIGN KEY (userID) REFERENCES User(userID),
+    PRIMARY KEY(sessionID),
+    UNIQUE (sessionID)
+    ) ENGINE InnoDB
+
+
+
+CREATE TABLE IF NOT EXISTS Camera(
+  name VARCHAR(32) NOT NULL,
+  PRIMARY KEY(name)
+)ENGINE InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS Image_Request(
+    name VARCHAR(32) NOT NULL,
+    timestamp BIGINT NOT NULL,
+    isRequesting VARCHAR(10),
+    captureTime BIGINT,
+    FOREIGN KEY (name) REFERENCES Camera(name),
+    PRIMARY KEY(name, timestamp)
+    )ENGINE InnoDB;
+
+			
