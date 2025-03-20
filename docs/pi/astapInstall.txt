@@ -1,0 +1,1 @@
+More or less following steps for installing command-line: https://astroisk.nl/unlocking-the-universe-installing-astap-on-raspberry-pi-5/
