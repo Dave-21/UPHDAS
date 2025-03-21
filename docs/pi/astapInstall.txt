@@ -1,1 +1,48 @@
 More or less following steps for installing command-line: https://astroisk.nl/unlocking-the-universe-installing-astap-on-raspberry-pi-5/
+
+1: Run 'sudo apt update && sudo apt upgrade'
+
+2: Download ASTAP for linux from the following website: https://www.hnsky.org/astap.htm
+    - Click on the newest Raspberry Pi 64-bit Debian package.
+    - You should be taken to a sourceforge page where you will actually download the package
+
+3: Depackage the downloaded file
+    - Navigate to where the file was downloaded (should look like "astap_aarch64.deb")
+    - Run 'sudo dpkg -i [downloadedFile].deb'
+
+4: Dwnload a star database
+    - Go back to the website from step 2 (https://www.hnsky.org/astap.htm)
+    - Download the W08 Database in the Raspberry Pi 64-bit row
+    - Once again, you will be taken to sourceforge
+
+5: Depackage and prep the star database
+    - Navigate to where the database was downloaded (should look like "w08_star_database_mag08_astap.deb")
+    - Run 'sudo dpkg -i [database].deb'
+    - This will have stored a file that looks something like 'w08_0101.001' in the folder /opt/astap
+    - Navigate to /usr/share . See if there is a directory inside it named 'astap'
+        - If there isn't, run 'sudo mkdir /usr/share/astap'
+    - Navigate to the directory you jst created (/usr/share/astap). See if there is a directory in it called 'data'.
+        - If there isn't, run 'sudo mkdir /usr/share/astap/data'
+    - Copy the database file to this new directory by running 'sudo cp /opt/astap/w08_0101.001 /usr/share/astap/data/w08_0101.001'.
+        - This is where astap on the commandline looks for the star database by default.
+        - If the star database file is not located in /opt/astap, you will need to find it and replace /opt/astap above with the filepath where you found it.
+
+6: Download astap_cli (command-line interface)
+    - Go back to the website from step 2 (https://www.hnsky.org/astap.htm)
+    - Scroll down to the "Alternative links & sevelopment version" table
+    - Find the Raspberry pi 64-bit row and click on astap_cli (should be in the column all the way to the right)
+    - You will be taken to sourceforge again
+
+7: Depackage astap_cli
+    - Navigate to where you installed astap_cli (should look like "asap_command-line_version_Linux_aarch64.zip")
+    - Run "unzip [filename].zip'
+        - Alternatively, you can unzip it through the file manager, just make sure it stays in the same folder until the next step.
+    - Run 'sudo mv ./astap_cli /usr/bin'
+    - Ensure astap is working by running 'astap_cli'
+        - Output should look something like this: ASTAP astrometric solver version CLI-2024.02.07 (C) 2018, 2024 by Han Kleijn. License MPL 2.0, Webpage: www.hnsky.org
+
+8: Running astap_cli
+    - To run astap_cli, type 'astap_cli -D w08 -f [image]'
+
+
+
