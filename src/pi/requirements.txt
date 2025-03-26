@@ -1,0 +1,21 @@
+Raspberry pi install requirements:
+
+Camera:
+
+  For Raspberry Pi 4:
+    Add the following lines to config.txt:
+      dtoverlay=imx477
+      camera_auto_detect=0
+  For Raspberry Pi 5:
+    Add the same following lines, but use camera port 1 for the camera.
+
+Python:
+    sudo apt install python3-[package]
+
+    Required python packages:
+      picamera2
+      libcamera
+      os
+      json
+      datetime
+      
