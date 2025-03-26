@@ -3,9 +3,20 @@ import cv2 as cv
 
 #Disclaimer: some code used from opencv website
 
+#File to load calibration data from
+paramFile = 'calibrationParams.npz'
+
+#File to save calibrated image to.
+#Index 0 is the filepath, index 1 is the extension
+outputPath = ['Calibrated/calibrated_', '.png']
+
+
 # Load calibration parameters from .npz file
-data = np.load("calibrationParams.npz")
+data = np.load(paramFile)
+if data is None:
+    print("Couldn't open file")
 mtx = data['mtx']
+print(mtx)
 dist = data['dist']
 calib_size = tuple(data['calib_size'])  # (width, height)
 
@@ -32,6 +43,7 @@ newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
 dst = cv.undistort(img, mtx, dist, None, newcameramtx)
 
 # Full undistotred image
-output_file = f'calibrateResult{filepath.rsplit(".", 1)[0]}.png'
+filename = filepath.split("/")[-1]
+output_file = f'{outputPath[0]}{filename.rsplit(".", 1)[0]}{outputPath[1]}'
 cv.imwrite(output_file, dst)
-print(f"Wrote image out to calibrateResult{output_file}.png")
+print(f"Wrote image out to {output_file}")
