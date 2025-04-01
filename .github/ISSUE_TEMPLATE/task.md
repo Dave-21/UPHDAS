@@ -2,7 +2,7 @@
 
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Camera calibration          | Calibrate camera and remove lens distortion                                                                                  | 1        |
+| ~~Camera calibration~~          | ~~Calibrate camera and remove lens distortion~~                                                                                  | 1        |
 | Data Transfer               | Send image data from the pi and display it on the website                                                                                     | 2        |
 | Technical Dimensions Doc    | Prepare an in-depth document showing all measurement properties for engineering team                                                          | 1        |
 | Pi 5 Case                   | Find a slim case with fan and good heatsink for Pi 5                                                                                          | 2        |
@@ -29,7 +29,7 @@
 | ~~Server~~                  | ~~Set up a test server to test our website, database, and rsync~~                                                                                 | 1        |
 | ~~Website~~                 | ~~Set up a basic website that can accept and reject logins~~                                                                                      | 2        |
 | ~~Database~~                | ~~Set up a database with an ER diagram for data flow~~   |         | 3        |
-| Camera calibration          | Calibrate camera and remove lens distortion                                                                                      |1        |                                                                                    
+| ~~Camera calibration~~          | ~~Calibrate camera and remove lens distortion~~                                                                                      |1        |                                                                                    
 | Pi Debug & Logging          | Add debug modes and update logging in all critical Pi scripts                                                                                 | 1        |
 | Plate Solve Verification    | Confirm ASTAP Pi plate solve functionality works reliably                                                                                   | 1        |
 | Image Pipeline Validation   | Validate the image pipeline end-to-end (rolling_capture.py and conjunction documents)                                                         | 1        |
@@ -41,7 +41,7 @@
 | Data Flow Definition        | Define the overall data flow for observation data and specify the data structure (validated satellites; images with metadata)                   | 2        |
 | Data Structure Specification| Specify metadata details: latitude/longitude, streak points (with times), exposure length, capture datetime                                      | 2        |
 | Directory Layout Documentation | Document the directory layout for data storage, compression, and archival                                                                   | 3        |
-| Server-Website Integration  | Set up and integrate the website with the test server and database                                                                            | 2        |
+| ~~Server-Website Integration~~  | ~~Set up and integrate the website with the test server and database~~                                                                            | 2        |
 | GitHub Documentation Updates| Continuously update the project GitHub repository with current changes and documentation                                                       | 1        |
 | Unit & Integration Testing       | Develop and run unit tests for Pi scripts, web interface, and data processing modules; perform full system integration testing                                             | 1        |
 | Security & Access Control        | Implement basic security measures (SSL, user session management, access control for admin areas)                                                                         | 2        |
