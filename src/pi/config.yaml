@@ -24,6 +24,8 @@ pi_config:
   astap_demosaic: true        
   astap_color_correction: true
   validation_margin_deg: 1.0
+  astap_outputdir: Solved/
+  error_log_file: error.log
 
 streak_detection:
   min_length: 50
