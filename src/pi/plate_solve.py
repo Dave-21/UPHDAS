@@ -15,15 +15,27 @@ Configuration parameters (to be added in config.yaml under a relevant section):
 import os
 import subprocess
 from astropy.wcs import WCS
+import error_Handler as ERR
 
 # Runs ASTAP plate solving on the given image and outputs .ini/.wcs solution
 def run_plate_solve(image_path, config, output_dir="plate_solve_results"):
+    
+    #Checks if the input image exists/is a file
+    if(os.path.isfile(image_path) == False):
+        raise ERR.UPHDAS_Error("01001", "Image to plate solve wasn't found.", False)
+        return None
+        
+    
+    
     os.makedirs(output_dir, exist_ok=True)
     # Use the input image's basename for the output name
     base_name = os.path.splitext(os.path.basename(image_path))[0]
+    print(f"basename is {base_name}")
     output_basename = os.path.join(output_dir, base_name)
     
+    
     # Build le ASTAP command
+    
     # Sample command: astap -f shot19.png -fov 0 -r 180 -m 3 -speed slow -dcm -cc -o <output_basename>
     command = [
         "astap",
@@ -45,10 +57,11 @@ def run_plate_solve(image_path, config, output_dir="plate_solve_results"):
     try:
         subprocess.run(command, check=True)
     except subprocess.CalledProcessError as e:
-        print(f"ASTAP plate solving failed: {e}")
+        raise ERR.UPHDAS_Error("01002", f"ASTAP plate solving failed: {e}", False)
         return None
 
     # ASTAP will produce an .ini file
+
     ini_file = output_basename + ".ini"
     if os.path.exists(ini_file):
         return ini_file
