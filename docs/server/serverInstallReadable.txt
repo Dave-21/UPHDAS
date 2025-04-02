@@ -30,3 +30,13 @@ Type the following:
 Save and exit.
 Type serverip/phpinfo.php into a searchbar and verify php is working
 
+Installing clamAV
+
+reboot
+sudo apt install clamav
+reboot
+sudo freshclam
+sudo freshclam (again, should say databases are up to date)
+sudo clamav -i -r / (runs the malware scanner on all files in the computer)
+
+
