@@ -1,6 +1,6 @@
 # UPHDAS Directory Structure, Storage, Retrieval, Compression, and Archival Plan
 
-This document outlines the directory layout and responsibilities for both the **Raspberry Pi units** and the **central server** in the UPHDAS system. It also addresses where all files and configurations should reside and how data should be stored, synced, and archived.
+This document outlines the directory layout and responsibilities for both the **Raspberry Pi units** and the **central server** in the UPHDA-System. It also addresses where all files and configurations should reside and how data should be stored, synced, and archived.
 
 ---
 
