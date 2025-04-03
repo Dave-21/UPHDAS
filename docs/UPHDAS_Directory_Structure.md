@@ -111,7 +111,7 @@ This document outlines the directory layout and responsibilities for both the **
     - For each frame:
       - Capture, plate solve, extract RA/Dec
       - Match satellite with local TLEs
-      - Write JPEG and `*_meta.json`
+      - Write .png and `*_meta.json`
 2. **Sync Phase (Pi → Server):**
     - Cron runs `sync_to_server.sh`
     - Rsyncs to `/var/www/html/uphdas/data/<site>/YYYY-MM-DD/`
