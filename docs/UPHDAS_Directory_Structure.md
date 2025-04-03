@@ -1,6 +1,6 @@
-# UPHDAS Directory Structure, Storage, Retrieval, Compression, and Archival Plan
+# UPHDAS Directory Structure, Storage, Retrieval, and Compression Plan
 
-This document outlines the directory layout and responsibilities for both the **Raspberry Pi units** and the **central server** in the UPHDA-System. It also addresses where all files and configurations should reside and how data should be stored, synced, and archived.
+This document outlines the directory layout and responsibilities for both the **Raspberry Pi units** and the **central server** in the UPHDA-System. It also addresses where all files and configurations should reside and how data should be stored, and synced.
 
 ---
 
@@ -110,28 +110,18 @@ This document outlines the directory layout and responsibilities for both the **
     - If clear, `rolling_capture.py` runs
     - For each frame:
       - Capture, plate solve, extract RA/Dec
-      - Match satellite with local TLEs
+      - Match satellite with TLE catalog
       - Write .png and `*_meta.json`
-2. **Sync Phase (Pi → Server):**
+2. **Sync Phase (Pi &#8594; Server):**
     - Cron runs `sync_to_server.sh`
     - Rsyncs to `/var/www/html/uphdas/data/<site>/YYYY-MM-DD/`
     - Ensures target folder exists; creates it if necessary
 3. **Web Phase (Server):**
     - PHP reads metadata to populate dashboard
-    - Archive or auto-archive old nights
+    - This will have to be tested extensively for live data
 
 ---
 
-## Compression & Archival Plan (not planning on this/Optional)
-``(just an example of the process not our compression method)``
+## Image Comrpession
 
-- **Compression Tool**: `tar -czf`
-- **Triggered By**:
-  - Cronjob (e.g., 3am monthly/yearly)
-  - Folders older than `N` days (e.g. 3)
-- **Naming Convention**:
-  - `{SiteName}_{YYYY-MM-DD}.tar.gz`
-- **Source**: `/var/www/html/uphdas/data/<site>/YYYY-MM-DD/`
-- **Destination**: `/var/www/html/uphdas/archive/`
-
----
+### Got to decide what high fidelity compression we'll stick with
