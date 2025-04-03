@@ -1,6 +1,6 @@
-# UPHDAS Sequence Diagrams (Mermaid Format)
+# UPHDAS Sequence Diagrams
 
-This document contains all detailed sequence diagrams for UPHDAS, written in Mermaid format (markdown language). These cover operations including weather checks, pass predictions, image capture, streak processing, data upload, and TLE updates.
+This document contains all detailed sequence diagrams for UPHDAS, written in Mermaid format (a markdown language). These cover operations such as the weather check, pass prediction, image capture, streak processing, data upload, and TLE update.
 
 ---
 
@@ -11,9 +11,11 @@ sequenceDiagram
     participant Pi as Raspberry Pi
     participant Config as config.yaml
     participant NOAA as weather.gov API
+    participant Skyfield as skyfield.api
 
     Pi->>Config: Load config.yaml
-    Pi->>NOAA: Fetch forecast (cloud, precipitation, moon)
+    Pi->>NOAA: Fetch forecast (cloud, snow & rain precipitation)
+    Pi->>Skyfield: Calculate moon phase
     NOAA-->>Pi: Forecast data
     Pi->>Pi: Evaluate conditions against thresholds
     alt Conditions are favorable
@@ -31,13 +33,12 @@ sequenceDiagram
     autonumber
     participant Pi as Raspberry Pi
     participant TLE as combined.tle
-    participant Skyfield as Skyfield Library
+    participant Skyfield as skyfield.api
     participant Observer as Observer Location
 
     Pi->>TLE: Load latest satellite TLEs
     Pi->>Skyfield: Compute pass visibility (next 3 hrs)
     Skyfield->>Observer: Project paths from observer lat/lon
-    Skyfield-->>Pi: Best azimuth/elevation to point
 ```
 
 ---
@@ -53,12 +54,12 @@ sequenceDiagram
     participant WCS as .wcs File
 
     Pi->>Camera: Capture image (10 sec exposure)
-    Camera-->>Pi: Raw image (JPEG or PNG)
+    Camera-->>Pi: Raw image (PNG)
     Pi->>Storage: Save image
     Pi->>ASTAP: Run plate solve
     ASTAP-->>WCS: Output .wcs file
     Pi->>Pi: Extract RA/Dec using WCS
-    Pi->>Pi: Detect streaks (custom algorithm)
+    Pi->>Pi: Detect streaks
     Pi->>Pi: Match points on streak with time, direction, etc.
     Pi->>Pi: Identify satellite using TLE match
 ```
