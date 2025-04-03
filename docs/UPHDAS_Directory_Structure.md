@@ -1,29 +1,29 @@
 # UPHDAS Directory Structure, Storage, Retrieval, Compression, and Archival Plan
 
-This document outlines a detailed gameplan for the directory layout and responsibilities for both the **Raspberry Pi units** and the **central server** in the UPHDAS system. It also addresses where all files and configurations should reside and how data should be stored, synced, and archived.
+This document outlines the directory layout and responsibilities for both the **Raspberry Pi units** and the **central server** in the UPHDAS system. It also addresses where all files and configurations should reside and how data should be stored, synced, and archived.
 
 ---
 
-## 🌐 GitHub Repository Structure (Already Existing)
+## GitHub Repo Structure
 
 ```
 <repo-root>
 ├── .github/ISSUE_TEMPLATE/           # GitHub issue templates
-├── docs/                             # Project documentation (hardware, server, budget, design)
-│   ├── pi/                           # Raspberry Pi specific setup
-│   ├── server/                       # Server configuration and setup
+├── docs/                             # Project documentation (hardware, server, design)
+│   ├── pi/                           # Raspberry Pi configuration/setup/docs
+│   ├── server/                       # Server configuration/setup/docs
 │   └── ...                           # Other project docs
 ├── src/                              # Core scripts
-│   ├── common/                       # Shared Python utilities
+│   ├── common/                       # Shared Python utilities (probly just Rsync)
 │   ├── pi/                           # All Pi-side Python + Bash scripts
-│   └── server/                       # Server-side utilities & service scripts
+│   └── server/                       # Server-side utilities, Bash scripts, and web-interface
 ├── README.md
 └── requirements.txt                 # Global pip dependencies
 ```
 
 ---
 
-## 🧠 Raspberry Pi Unit Directory Layout
+## Raspberry Pi Directory Layout
 
 ### Base Path: `/home/pi/uphdas`
 
@@ -31,12 +31,12 @@ This document outlines a detailed gameplan for the directory layout and responsi
 /home/pi/uphdas/
 ├── bin/                         # Executables and service scripts
 │   ├── rolling_capture.py       # Main entrypoint script for automated observations
-│   ├── setup_pi.sh              # Pi provisioning script
+│   ├── setup_pi.sh              # Pi initialization script
 │   ├── sync_to_server.sh        # Rsync push script
-│   └── start_capture.sh         # Startup launcher
+│   └── start_capture.sh         # Startup launcher (can be run from cron job)
 ├── config/
 │   ├── config.yaml              # Pi-specific configuration (thresholds, camera ID, FOV, etc)
-│   └── site_info.json           # Location metadata (lat, lon, alt, site tag)
+│   └── site_info.json           # Location metadata (lat, lon, alt, elv, site tag)
 ├── logs/                        # Rolling logs
 │   ├── capture.log
 │   └── error.log
@@ -55,66 +55,54 @@ This document outlines a detailed gameplan for the directory layout and responsi
 │   ├── catalog.tle              # Raw TLEs
 │   └── combined.tle             # Merged for prediction
 ├── data/                        # All captured observation data
-│   ├── YYYY-MM-DD/              # One folder per date
-│   │   ├── shot001.jpg
-│   │   ├── shot001_meta.json
+│   ├── YYYY-MM-DD/              # One folder per date (they get recycled tho)
+│   │   ├── shot001.png
+│   │   ├── shot001_meta.json    # Currently it's in JSON format
 │   │   └── ...
-├── archive/                     # Optional compressed image logs
-│   └── 2025-04-03.tar.gz        # After successful sync
 ├── crons/
 │   └── rsync.cron               # Cron jobs (e.g. weather check, nightly startup)
-└── requirements.txt             # Pi-specific Python dependencies
+└── requirements.txt             # Pi-specific Python dependencies (these are pip reqs but we'll but APT installs in setup)
 ```
-
-> 📝 **Notes**:
-- `sync_to_server.sh` reads `config.yaml` for Rsync target info
-- No `.wcs`, `.ini`, or streak masks are uploaded—just `*.jpg` and `*_meta.json`
-- Logs roll daily or weekly with optional compression
 
 ---
 
-## 🖥️ Server Directory Layout
+## Server Directory Layout
 
 ### Base Path: `/var/www/html/uphdas`
 
 ```
 /var/www/html/uphdas/
 ├── php/                          # Web interface files
-│   ├── index.php                 # Dashboard/landing
+│   ├── index.php                 # Dashboard/homepage
 │   ├── viewer.php                # Data viewer by site/date
-│   ├── api/                      # JSON API endpoints
+│   ├── api/                      # JSON API endpoints (there are many ways we can do this)
 │   │   ├── get_metadata.php
 │   │   ├── get_sites.php
 │   │   └── get_latest.php
 ├── assets/                       # Static CSS/JS/images
 │   └── ...
-├── includes/                     # PHP includes/configs
+├── includes/
 │   └── db_connect.php
 ├── config/
-│   └── global_config.yaml        # Shared config for PHP, paths, access levels
+│   └── global_config.yaml
+│   └── # We'll probably need another shared config for PHP, paths, access levels
 ├── data/                         # Synchronized images + metadata
 │   ├── Cedarville/
 │   │   └── 2025-04-03/
-│   │       ├── shot001.jpg
+│   │       ├── shot001.png
 │   │       └── shot001_meta.json
 │   └── Pickford/
 │       └── ...
-├── archive/
+├── archive/                       # We should honestly archive everything say yearly (not in our plan) - Optional
 │   └── Cedarville_2025-04-03.tar.gz  # Archived daily image logs
 └── logs/
     └── web.log                   # Web interface access logs
+    └── # Many other logs too. For e.g. climate.log, issues.log, errors.log, debug.log (if debug mode is on)
 ```
-
-> 📝 **Notes**:
-- Rsync destination is `/var/www/html/uphdas/data/<site>/YYYY-MM-DD/`
-- Each Pi pushes to its own subdirectory under `data/`
-- Metadata API uses `*_meta.json` to build site-wide and time-based queries
-- Archive jobs (cron or manual) compress old folders and move them to `archive/`
-- ✅ When syncing, if a folder for the site name does not exist in `data/`, it should be **created automatically** at that moment. This ensures full scalability for new school units without requiring manual folder setup.
 
 ---
 
-## 🗃️ Data Flow Summary
+## Data Flow Summary
 
 1. **Observation Phase (Pi):**
     - Pi wakes at 7PM
@@ -134,11 +122,12 @@ This document outlines a detailed gameplan for the directory layout and responsi
 
 ---
 
-## 🧩 Compression & Archival Plan
+## Compression & Archival Plan (not planning on this/Optional)
+``(just an example of the process not our compression method)``
 
 - **Compression Tool**: `tar -czf`
 - **Triggered By**:
-  - Manual job or cronjob (e.g., 3AM daily)
+  - Cronjob (e.g., 3am monthly/yearly)
   - Folders older than `N` days (e.g. 3)
 - **Naming Convention**:
   - `{SiteName}_{YYYY-MM-DD}.tar.gz`
@@ -146,5 +135,3 @@ This document outlines a detailed gameplan for the directory layout and responsi
 - **Destination**: `/var/www/html/uphdas/archive/`
 
 ---
-
-Let me know if you'd like bash templates, cronjob entries, or systemd unit files included next.
