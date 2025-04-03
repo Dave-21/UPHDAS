@@ -3,6 +3,7 @@
 | Name                        | About                                                                                                                                         | Priority |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | ~~Camera calibration~~          | ~~Calibrate camera and remove lens distortion~~                                                                                  | 1        |
+| Python Requirements               | Make a requirements.txt for pip install with python and make exhaustive list of the dependencies and libraries needed to be installed (for automated install script).                                                                                     | 2        |
 | Data Transfer               | Send image data from the pi and display it on the website                                                                                     | 2        |
 | Technical Dimensions Doc    | Prepare an in-depth document showing all measurement properties for engineering team                                                          | 1        |
 | Pi 5 Case                   | Find a slim case with fan and good heatsink for Pi 5                                                                                          | 2        |
