@@ -1,6 +1,6 @@
 # UPHDAS Sequence Diagrams (Mermaid Format)
 
-This document contains all detailed sequence diagrams for the Unified Public Highschool Distributed Astrophotography System (UPHDAS), written in Mermaid format. These cover operations including weather checks, pass predictions, image capture, streak processing, data upload, and TLE updates.
+This document contains all detailed sequence diagrams for UPHDAS, written in Mermaid format (markdown language). These cover operations including weather checks, pass predictions, image capture, streak processing, data upload, and TLE updates.
 
 ---
 
@@ -60,6 +60,7 @@ sequenceDiagram
     Pi->>Pi: Extract RA/Dec using WCS
     Pi->>Pi: Detect streaks (custom algorithm)
     Pi->>Pi: Match points on streak with time, direction, etc.
+    Pi->>Pi: Identify satellite using TLE match
 ```
 
 ---
@@ -80,59 +81,43 @@ sequenceDiagram
 
 ---
 
-## 5. TLE Update on Server
+## 5. TLE Update on Pi
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as Homestead Server
+    participant Pi as Raspberry Pi
     participant SpaceTrack as space-track.org
     participant Celestrak as celestrak.org
     participant Catalog as TLE Catalog
 
-    Server->>SpaceTrack: Fetch active satellite TLEs
-    Server->>Celestrak: Fetch Starlink, OneWeb TLEs
-    SpaceTrack-->>Server: TLE Data
-    Celestrak-->>Server: TLE Data
-    Server->>Catalog: Merge and store as combined.tle
+    Pi->>SpaceTrack: Fetch active satellite TLEs
+    Pi->>Celestrak: Fetch Starlink, OneWeb TLEs
+    SpaceTrack-->>Pi: TLE Data
+    Celestrak-->>Pi: TLE Data
+    Pi->>Catalog: Merge and store as combined.tle
 ```
 
 ---
 
-## 6. Image Validation and Matching (Server-Side)
+## 6. Image Validation and Matching (on Pi)
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as Homestead Server
+    participant Pi as Raspberry Pi
     participant Catalog as combined.tle
     participant Skyfield as Skyfield Library
     participant Metadata as Image Metadata
 
-    Server->>Metadata: Load image RA/Dec and timestamp
-    Server->>Catalog: Load recent TLEs
-    Server->>Skyfield: Predict positions at image time
-    Skyfield-->>Server: Predicted satellite positions
-    Server->>Server: Compare RA/Dec vectors
+    Pi->>Metadata: Load image RA/Dec and timestamp
+    Pi->>Catalog: Load recent TLEs
+    Pi->>Skyfield: Predict positions at image time
+    Skyfield-->>Pi: Predicted satellite positions
+    Pi->>Pi: Compare RA/Dec vectors
     alt Match found
-        Server->>Server: Mark image as validated
+        Pi->>Pi: Mark image as validated
     else No match
-        Server->>Server: Store as unvalidated
+        Pi->>Pi: Store as unvalidated
     end
-```
-
----
-
-## 7. GitHub Dev Pipeline (Manual Backup)
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Dev as Developer
-    participant GitHub as GitHub Repo
-    participant Pi as Raspberry Pi
-
-    Dev->>Pi: Pull changes
-    Dev->>GitHub: Commit and push code backup
-    GitHub-->>Dev: Store in remote
-    note over Pi: Pi pulls updates manually if needed
 ```
 
 ---
