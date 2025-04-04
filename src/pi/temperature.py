@@ -286,11 +286,11 @@ def get_temperature():
         if (pin < 2 or pin > 27):
             raise ValueError
     except:
-        ERR.UPHDAS_Error("02001", 'Temperature sensor gpio pin {} is not valid'.format(pin), False)
+        ERR.raiseError("02001", 'Temperature sensor gpio pin {} is not valid'.format(pin), False)
         return None
 
     if sensor not in ("11", "22", "2302"):
-        ERR.UPHDAS_Error("02002", 'Temperature sensor type "{}" is not valid. Use 11, 22 or 2302', False)
+        ERR.raiseError("02002", 'Temperature sensor type "{}" is not valid. Use 11, 22 or 2302', False)
         return None
             
             
@@ -326,7 +326,7 @@ def get_temperature():
     if result.is_valid():
         output = [result.temperature, result.humidity]
     else:
-        ERR.UPHDAS_Error("02003", "Temperature sensor failed to get reading. Is the sensor connected? Is the pin number correct?", False)
+        ERR.raiseError("02003", "Temperature sensor failed to get reading. Is the sensor connected? Is the pin number correct?", False)
         return None
         
     # clean the gpio
