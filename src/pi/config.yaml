@@ -27,6 +27,17 @@ pi_config:
   astap_outputdir: Solved/
   error_log_file: error.log
 
+temperature:
+  sensor_type: 22
+  gpio_pin: 4
+
+image_calibration:
+  parameter_file: calibrationParams.npz
+  outputdir: Calibrated/
+  output_prefix: calibrated_
+  filetype: .png
+
+
 streak_detection:
   min_length: 50
   border_tolerance: 10
