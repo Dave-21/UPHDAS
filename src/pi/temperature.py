@@ -277,7 +277,7 @@ def get_temperature():
 
     cfg = gc.load_config().get("temperature")
 
-    sensor = cfg.get("sensor_type", '22')
+    sensor = str(cfg.get("sensor_type", '22'))
     pin = cfg.get("gpio_pin", 4)
 
 
