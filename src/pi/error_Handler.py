@@ -18,7 +18,7 @@ class UPHDAS_Error(Exception):
         #Writes the error message to the log file
         outFile = open(logPath, "a")
         
-        outFile.write(f"{self} at time {self.time}")
+        outFile.write(f"{self} at time {self.time}\n")
         
         outFile.close()
         
@@ -38,8 +38,24 @@ class UPHDAS_configError(Exception):
     def __init__(self, code, message):
         self.code = code
         self.message = message
+        
+        #Writes the error message to the log file
+        outFile = open('temp_error.log', "a")
+        
+        outFile.write(f"{self} at time {self.time}\n")
+        
+        outFile.close()
+
+
         print(self)
         exit()
     
     def __str__(self):
         return f"Internal Error {self.code}: {self.message}"
+
+
+def raiseError(code, message, isFatal):
+    try:
+        raise UPHDAS_Error(code, message, isFatal)
+    except:
+        pass
