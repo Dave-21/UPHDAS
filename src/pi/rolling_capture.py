@@ -34,7 +34,7 @@ def load_config(config_path="config.yaml"):
 # Takes Picamera2 instance, filename, and exposure time in microseconds
 # Returns the UTC start time of the capture
 def capture_image(camera, filename, exposure_time_us):
-    capture_start = datetime.datetime.utcnow()
+    capture_start = datetime.datetime.now(datetime.timezone.utc)
     camera.start()
     camera.capture_file(filename)
     camera.stop()
